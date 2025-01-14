@@ -1,9 +1,8 @@
-import { Button } from '@/components/ui/button';
-import BookTable from '../components/BookTable';
 import { Link } from 'react-router-dom';
 import { CirclePlus } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
-
+import { Button } from '@/components/ui/button';
+import BookTable from '@/components/BookTable';
 const Books = () => {
   return (
     <div className='container max-w-2xl mx-auto'>
@@ -16,7 +15,7 @@ const Books = () => {
           </Button>
         </Link>
       </div>
-      <BookTable></BookTable>
+      <BookTable />
     </div>
   );
 };

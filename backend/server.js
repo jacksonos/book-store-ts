@@ -4,8 +4,6 @@ import mongoose from 'mongoose';
 import booksRoute from './routes/booksRoute.js';
 import cors from 'cors';
 
-
-
 // Load env variables
 dotenv.config();
 

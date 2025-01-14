@@ -88,8 +88,8 @@ const BookTable: React.FC = () => {
   };
 
   return (
-    <div className='w-full'>
-      <Table className='mt-4'>
+    <div className='relative w-full overflow-auto'>
+      <Table className='w-full caption-bottom mt-4 '>
         <TableCaption>
           {error ? (
             <Alert variant='destructive' className='w-3/6'>
@@ -128,7 +128,6 @@ const BookTable: React.FC = () => {
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.publishYear}</TableCell>
               <TableCell className='text-right'>
-                
                 <Link to={`/add-order/${book._id}`}>
                   <Button variant='outline' className=''>
                     <Pencil />
