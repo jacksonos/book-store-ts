@@ -19,6 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { createBook, getBookById, updateBook } from '@/services/bookService';
 import DocumentTitle from '@/services/DocumentTitle';
+import { Textarea } from './ui/textarea';
 
 // Form schema validation using Zod.
 const formSchema = z.object({
@@ -44,7 +45,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(20, { message: 'Description must be at least 20 characters.' })
-    .max(200, { message: 'Description must be at most 200 characters.' })
+    .max(250, { message: 'Description must be at most 250 characters.' })
     .trim(),
 });
 
@@ -63,7 +64,7 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
   }
 
   // Fetch the book data.
-  useEffect(() => { 
+  useEffect(() => {
     if (bookId) {
       getBookById(bookId).then((book) => {
         form.reset(book);
@@ -154,8 +155,12 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input
+                  {/* <Input
                     className='text-wrap'
+                    placeholder='The book discusses about...'
+                    {...field}
+                  /> */}
+                  <Textarea
                     placeholder='The book discusses about...'
                     {...field}
                   />

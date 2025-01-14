@@ -10,10 +10,10 @@ const EditAddBook: FC = () => {
   const { id } = useParams();
 
   return (
-    <div className='container max-w-2xl mx-auto'>
+    <div className='max-w-screen-lg mx-auto'>
       <div className='flex justify-start items-center my-4'>
         <Link to='/' className='mr-2'>
-          <Button variant={'outline'} size='icon'>
+          <Button variant={'secondary'} size='icon'>
             <ChevronLeft />
           </Button>
         </Link>

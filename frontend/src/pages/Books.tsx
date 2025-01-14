@@ -13,7 +13,7 @@ const Books: FC = () => {
   // Dynamic title for the page
   DocumentTitles({ title: 'Book Store 📙' });
   return (
-    <div className='container max-w-2xl mx-auto'>
+    <div className='max-w-screen-lg mx-auto'>
       <h1 className='font-semibold text-3xl text-center my-4'>Books</h1>
       <div className='flex justify-between'>
         <ModeToggle></ModeToggle>
