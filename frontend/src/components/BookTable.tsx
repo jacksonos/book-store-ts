@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import {
   Table,
@@ -37,7 +37,7 @@ interface Book {
   description: string;
 }
 
-const BookTable: React.FC = () => {
+const BookTable: FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);

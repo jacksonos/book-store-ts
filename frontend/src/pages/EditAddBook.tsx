@@ -1,9 +1,14 @@
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AddEditForm from '@/components/AddEditForm';
-import { Link } from 'react-router-dom';
 
-const EditAddBook: React.FC = () => {
+import { FC } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+const EditAddBook: FC = () => {
+  // Get the id from the URL.
+  const { id } = useParams();
+
   return (
     <div className='container max-w-2xl mx-auto'>
       <div className='flex justify-start items-center my-4'>
@@ -12,9 +17,9 @@ const EditAddBook: React.FC = () => {
             <ChevronLeft />
           </Button>
         </Link>
-        <h1 className='text-2xl font-semibold'>Add a Book</h1>
+        <h1 className='text-2xl font-semibold'>{id ? 'Edit' : 'Add'}</h1>
       </div>
-      <AddEditForm />
+      <AddEditForm bookId={id} />
     </div>
   );
 };

@@ -12,9 +12,6 @@ function App() {
         <Route path='/add-order' element={<EditAddBook />} />
         <Route path='/add-order/:id' element={<EditAddBook />} />
       </Routes>
-      {/* <div className='container max-w-2xl mx-auto'>
-        <EditAddBook></EditAddBook>
-      </div> */}
     </ThemeProvider>
   );
 }

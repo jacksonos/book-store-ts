@@ -16,8 +16,9 @@ import { Button } from './ui/button';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createBook, getBookById, updateBook } from '@/services/bookService';
+import DocumentTitle from '@/services/DocumentTitle';
 
 // Form schema validation using Zod.
 const formSchema = z.object({
@@ -47,20 +48,28 @@ const formSchema = z.object({
     .trim(),
 });
 
-const AddEditForm: FC = () => {
-  // Get the id from the URL.
-  const { id } = useParams();
+interface AddEditFormProps {
+  bookId?: string;
+}
+
+const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
   // Navigate to the home page.
   const navigate = useNavigate();
+  // Change the title
+  if (bookId) {
+    DocumentTitle({ title: 'Book Store 📙 - Edit' });
+  } else {
+    DocumentTitle({ title: 'Book Store 📙 - New book' });
+  }
 
   // Fetch the book data.
-  useEffect(() => {
-    if (id) {
-      getBookById(id).then((book) => {
+  useEffect(() => { 
+    if (bookId) {
+      getBookById(bookId).then((book) => {
         form.reset(book);
       });
     }
-  }, [id]);
+  }, [bookId]);
 
   // Form definited.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,8 +84,8 @@ const AddEditForm: FC = () => {
 
   // Submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (id) {
-      updateBook(id, values);
+    if (bookId) {
+      updateBook(bookId, values);
     } else {
       createBook(values);
     }
