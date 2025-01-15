@@ -14,7 +14,7 @@ import { Progress } from '@/components/ui/progress';
 
 import { deleteBook, getBooks } from '@/services/bookService';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { AlertCircle, Pencil, Trash } from 'lucide-react';
+import { AlertCircle, Eye, Pencil, Trash } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   AlertDialog,
@@ -28,6 +28,8 @@ import {
   AlertDialogTrigger,
 } from './ui/alert-dialog';
 import { Link } from 'react-router-dom';
+import { Toaster } from './ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 
 interface Book {
   _id: string;
@@ -42,6 +44,7 @@ const BookTable: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -67,12 +70,21 @@ const BookTable: FC = () => {
     try {
       await deleteBook(id);
       setBooks(books.filter((book) => book._id !== id));
+      toast({
+        title: 'Success! Book Deleted ✅',
+        description: 'The book was deleted successfully from the database.',
+      });
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
         setError('An unknown error occurred');
       }
+      toast({
+        title: "Uh oh! Something went wrong 🛑",
+        description: 'Error deleting book.',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -89,7 +101,7 @@ const BookTable: FC = () => {
 
   return (
     <>
-      <Table className='w-full caption-bottom mt-4'>
+      <Table className='overflow-x-auto caption-bottom my-5'>
         <TableCaption>
           {error ? (
             <Alert variant='destructive' className='w-3/6'>
@@ -103,16 +115,16 @@ const BookTable: FC = () => {
             'A list of your recent books.'
           )}
         </TableCaption>
-
         <TableHeader>
           <TableRow>
             <TableHead>No</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Author</TableHead>
             <TableHead>Publish Year</TableHead>
-            <TableHead className='text-right'>Options</TableHead>
+            <TableHead className='text-right w-36'>Options</TableHead>
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {loading && (
             <TableRow className='animate-pulse'>
@@ -127,15 +139,18 @@ const BookTable: FC = () => {
               <TableCell>{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.publishYear}</TableCell>
-              <TableCell className='text-right'>
+              <TableCell className='text-right space-x-1.5'>
                 <Link to={`/add-order/${book._id}`}>
-                  <Button variant='outline' className=''>
+                  <Button variant='default' size='icon'>
                     <Pencil />
                   </Button>
                 </Link>
+                <Button variant='outline' size='icon'>
+                  <Eye />
+                </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant='destructive' className='ml-1.5'>
+                    <Button variant='destructive' size='icon'>
                       <Trash />
                     </Button>
                   </AlertDialogTrigger>
@@ -162,6 +177,7 @@ const BookTable: FC = () => {
               </TableCell>
             </TableRow>
           ))}
+          <Toaster />
         </TableBody>
       </Table>
     </>
