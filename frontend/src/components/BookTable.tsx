@@ -88,8 +88,8 @@ const BookTable: FC = () => {
   };
 
   return (
-    <div className='relative w-full overflow-auto'>
-      <Table className='w-full caption-bottom mt-4 '>
+    <>
+      <Table className='w-full caption-bottom mt-4'>
         <TableCaption>
           {error ? (
             <Alert variant='destructive' className='w-3/6'>
@@ -105,9 +105,9 @@ const BookTable: FC = () => {
         </TableCaption>
 
         <TableHeader>
-          <TableRow className=''>
-            <TableHead className='w-[50px]'>No</TableHead>
-            <TableHead className='w-2/6'>Title</TableHead>
+          <TableRow>
+            <TableHead>No</TableHead>
+            <TableHead>Title</TableHead>
             <TableHead>Author</TableHead>
             <TableHead>Publish Year</TableHead>
             <TableHead className='text-right'>Options</TableHead>
@@ -164,7 +164,7 @@ const BookTable: FC = () => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 };
 
