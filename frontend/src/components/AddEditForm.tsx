@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { createBook, getBookById, updateBook } from '@/services/bookService';
 import DocumentTitle from '@/services/DocumentTitle';
 import { Textarea } from './ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 // Form schema validation using Zod.
 const formSchema = z.object({
@@ -40,8 +41,16 @@ const formSchema = z.object({
       required_error: 'Publish year is required',
       invalid_type_error: 'Publish year must be a number',
     })
+    .int()
     .positive()
-    .finite(),
+    .lte(9999, { message: 'Max number must have at least 4 digits.' }),
+  price: z.coerce
+    .number({
+      required_error: 'Publish year is required',
+      invalid_type_error: 'Publish year must be a number',
+    })
+    .positive()
+    .safe(),
   description: z
     .string()
     .min(20, { message: 'Description must be at least 20 characters.' })
@@ -56,6 +65,8 @@ interface AddEditFormProps {
 const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
   // Navigate to the home page.
   const navigate = useNavigate();
+  // Initializing of Toast
+  const { toast } = useToast();
   // Change the title
   if (bookId) {
     DocumentTitle({ title: 'Book Store 📙 - Edit' });
@@ -79,17 +90,34 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
       title: '',
       author: '',
       publishYear: 0,
+      price: 0,
       description: '',
     },
   });
 
   // Submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (bookId) {
-      updateBook(bookId, values);
-    } else {
-      createBook(values);
+    try {
+      if (bookId) {
+        updateBook(bookId, values);
+        toast({
+          title: 'Success! Book updated ✅',
+          description: 'Book updated successfully.',
+        });
+      } else {
+        createBook(values);
+        toast({
+          title: 'Success! Book created ✅',
+          description: 'Book created successfully.',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error! Failed to save',
+        description: `Error ${error}. Please try again`,
+      });
     }
+
     navigate('/');
   }
 
@@ -113,7 +141,7 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
               </FormItem>
             )}
           />
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-3 gap-4'>
             <FormField
               control={form.control}
               name='author'
@@ -125,6 +153,23 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
                   </FormControl>
                   <FormDescription>
                     This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='price'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price (S/.)</FormLabel>
+                  <FormControl>
+                    <Input type='number' {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The current book price.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -148,6 +193,7 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
               )}
             />
           </div>
+
           <FormField
             control={form.control}
             name='description'
@@ -155,11 +201,6 @@ const AddEditForm: FC<AddEditFormProps> = ({ bookId }) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  {/* <Input
-                    className='text-wrap'
-                    placeholder='The book discusses about...'
-                    {...field}
-                  /> */}
                   <Textarea
                     placeholder='The book discusses about...'
                     {...field}

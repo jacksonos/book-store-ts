@@ -12,17 +12,19 @@ const Books: FC = () => {
   // Dynamic title for the page
   DocumentTitles({ title: 'Book Store 📙' });
   return (
-    <div className='container mx-auto'>
+    <div className='w-full mx-auto'>
       <h1 className='font-semibold text-3xl text-center my-4'>Books</h1>
-      <div className='flex justify-between'>
-        <ModeToggle></ModeToggle>
-        <Link to='/add-order'>
-          <Button>
-            <CirclePlus /> Add Book
-          </Button>
-        </Link>
+      <div className=''>
+        <div className='flex flex-row justify-between'>
+          <ModeToggle></ModeToggle>
+          <Link to='/add-order'>
+            <Button>
+              <CirclePlus /> Add Book
+            </Button>
+          </Link>
+        </div>
+        <BookTable />
       </div>
-      <BookTable />
     </div>
   );
 };

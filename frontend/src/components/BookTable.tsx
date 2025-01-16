@@ -36,6 +36,7 @@ interface Book {
   title: string;
   author: string;
   publishYear: number;
+  price: number;
   description: string;
 }
 
@@ -81,7 +82,7 @@ const BookTable: FC = () => {
         setError('An unknown error occurred');
       }
       toast({
-        title: "Uh oh! Something went wrong 🛑",
+        title: 'Uh oh! Something went wrong 🛑',
         description: 'Error deleting book.',
         variant: 'destructive',
       });
@@ -100,8 +101,8 @@ const BookTable: FC = () => {
   };
 
   return (
-    <>
-      <Table className='overflow-x-auto caption-bottom my-5'>
+    <div className='w-full overflow-x'>
+      <Table>
         <TableCaption>
           {error ? (
             <Alert variant='destructive' className='w-3/6'>
@@ -117,11 +118,12 @@ const BookTable: FC = () => {
         </TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>No</TableHead>
+            <TableHead className='w-12'>No</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Author</TableHead>
             <TableHead>Publish Year</TableHead>
-            <TableHead className='text-right w-36'>Options</TableHead>
+            <TableHead className='text-right'>Price (S/.)</TableHead>
+            <TableHead className='text-right'>Options</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -134,11 +136,12 @@ const BookTable: FC = () => {
             </TableRow>
           )}
           {books.map((book, index) => (
-            <TableRow key={book._id} className=''>
+            <TableRow key={book._id}>
               <TableCell className='font-medium'>{index + 1}</TableCell>
               <TableCell>{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.publishYear}</TableCell>
+              <TableCell className='text-right'>{book.price}</TableCell>
               <TableCell className='text-right space-x-1.5'>
                 <Link to={`/add-order/${book._id}`}>
                   <Button variant='default' size='icon'>
@@ -161,7 +164,7 @@ const BookTable: FC = () => {
                       </AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete{' '}
+                        delete
                         <span className='font-semibold'>{book.title}</span> book
                         and remove its data from our servers.
                       </AlertDialogDescription>
@@ -180,7 +183,7 @@ const BookTable: FC = () => {
           <Toaster />
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 };
 

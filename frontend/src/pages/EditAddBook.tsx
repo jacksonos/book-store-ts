@@ -2,12 +2,18 @@ import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AddEditForm from '@/components/AddEditForm';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 const EditAddBook: FC = () => {
   // Get the id from the URL.
   const { id } = useParams();
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('Delayed for 1 second.');
+    }, 300);
+  });
 
   return (
     <div className='max-w-screen-lg mx-auto'>

@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 // Create a book
 router.post('/', validateRequestBody, async (req, res) => {
   try {
-    const { title, author, publishYear, description } = req.body;
+    const { title, author, publishYear, description, price } = req.body;
     const book = new Book(req.body);
     await book.save();
     return res.status(201).json(book);
