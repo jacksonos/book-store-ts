@@ -1,4 +1,4 @@
-# Proyecto Librería
+# Book Store
 
 Este proyecto es una aplicación full-stack para gestionar una librería. Incluye un frontend construido con React, TypeScript y Vite, y un backend construido con Node.js, Express y MongoDB.
 
